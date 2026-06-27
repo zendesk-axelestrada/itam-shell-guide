@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ITAM Shell Template · Setup guide</title>
-<meta name="description" content="Get your prototype running in minutes with this ready-made Zendesk navigation shell." />
+<meta name="description" content="Ready-made Zendesk navigation shell for prototyping." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -22,8 +22,9 @@
   --accent:#1a73e8;
   --accent-dark:#1557b0;
   --accent-wash:#e8f1ff;
-  --success:#0f6d3a;
-  --success-wash:#e6f7ed;
+  --warning:#d97706;
+  --warning-wash:#fff7ed;
+  --warning-border:#fb923c;
   --code-bg:#1a1f2e;
   --code-bar:#0f1419;
   --code-text:#e6edf3;
@@ -42,11 +43,20 @@ body{
   background:var(--bg);
   line-height:1.7;
   -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
 }
 ::selection{background:var(--accent-wash);color:var(--accent-dark)}
 a{color:var(--accent);text-decoration:none;font-weight:500}
 a:hover{text-decoration:underline}
+code{
+  background:var(--bg-soft);
+  padding:3px 8px;
+  border-radius:6px;
+  font-family:var(--font-mono);
+  font-size:14px;
+  color:var(--accent-dark);
+  font-weight:500;
+  border:1px solid var(--line);
+}
 
 .container{max-width:var(--maxw);margin:0 auto;padding:0 28px}
 
@@ -59,9 +69,10 @@ a:hover{text-decoration:underline}
 }
 .hero__badge{
   display:inline-block;
-  padding:6px 14px;
-  background:var(--success);
-  color:#fff;
+  padding:7px 16px;
+  background:transparent;
+  color:var(--accent-dark);
+  border:2px solid var(--accent);
   border-radius:20px;
   font-size:13px;
   font-weight:600;
@@ -110,7 +121,38 @@ a:hover{text-decoration:underline}
   margin-bottom:40px;
 }
 
-/* Callout */
+/* Important callout - HEY!!!! */
+.important{
+  background:var(--warning-wash);
+  border:3px solid var(--warning-border);
+  border-radius:var(--radius);
+  padding:24px 28px;
+  margin:32px 0;
+}
+.important__header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+.important__icon{
+  font-size:28px;
+  line-height:1;
+}
+.important__title{
+  font-size:19px;
+  font-weight:700;
+  color:var(--ink);
+}
+.important p{
+  font-size:17px;
+  line-height:1.65;
+  color:var(--text);
+  margin:0;
+}
+.important strong{color:var(--ink);font-weight:600}
+
+/* Regular callout */
 .callout{
   background:var(--accent-wash);
   border-left:4px solid var(--accent);
@@ -143,16 +185,35 @@ a:hover{text-decoration:underline}
   line-height:1.6;
   color:var(--text);
 }
-.col li svg{flex-shrink:0;width:20px;height:20px;margin-top:2px}
-.col li.success svg{color:var(--success)}
-.col code{
+.col li svg{flex-shrink:0;width:20px;height:20px;margin-top:2px;color:var(--accent)}
+
+/* Visual diagram */
+.diagram{
+  margin:40px 0;
+  padding:32px;
   background:var(--bg-soft);
-  padding:3px 8px;
-  border-radius:6px;
-  font-family:var(--font-mono);
-  font-size:14px;
-  color:var(--accent-dark);
-  font-weight:500;
+  border-radius:var(--radius);
+  border:2px solid var(--line-soft);
+}
+.diagram h3{
+  font-size:20px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:20px;
+  text-align:center;
+}
+.diagram img{
+  width:100%;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--line);
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+.diagram__caption{
+  margin-top:16px;
+  text-align:center;
+  font-size:15px;
+  color:var(--muted);
+  line-height:1.6;
 }
 
 /* Steps */
@@ -260,6 +321,8 @@ a:hover{text-decoration:underline}
   line-height:1.7;
   color:var(--code-text);
   background:transparent;
+  border:none;
+  padding:0;
 }
 
 /* Workflow phases */
@@ -303,26 +366,6 @@ a:hover{text-decoration:underline}
   margin-bottom:12px;
 }
 
-/* Success banner */
-.success-banner{
-  background:var(--success-wash);
-  border:2px solid var(--success);
-  border-radius:var(--radius);
-  padding:24px;
-  text-align:center;
-  margin:32px 0;
-}
-.success-banner__icon{
-  font-size:40px;
-  margin-bottom:12px;
-}
-.success-banner p{
-  font-size:18px;
-  font-weight:600;
-  color:var(--success);
-  margin:0;
-}
-
 /* Footer */
 .footer{
   padding:60px 28px 40px;
@@ -341,6 +384,7 @@ a:hover{text-decoration:underline}
   .cols{grid-template-columns:1fr;gap:28px}
   .step{flex-direction:column;gap:20px;padding:24px}
   .step__num{width:44px;height:44px;font-size:20px}
+  .diagram{padding:20px}
 }
 </style>
 </head>
@@ -349,57 +393,66 @@ a:hover{text-decoration:underline}
 <!-- Hero -->
 <div class="hero">
   <div class="hero__badge">ITAM Shell Template</div>
-  <h1>Get your prototype running in 6 steps</h1>
-  <p class="hero__lede">A ready-made Zendesk shell with Admin Center and Support chrome already wired up. Skip the boilerplate and start building your ideas.</p>
+  <h1>Ready-made Zendesk shell for prototyping</h1>
+  <p class="hero__lede">Header, sidebar, and navigation already wired up. Just add your content and start building.</p>
 </div>
 
 <!-- What is this -->
 <section class="section">
   <div class="container">
-    <span class="section__label">What you're getting</span>
+    <span class="section__label">What you get</span>
     <h2>The shell is built. You build the content.</h2>
-    <p class="section__intro">The template gives you Zendesk's header, product tray, and sidebar. Your prototype goes inside <code>&lt;Main&gt;</code>—that's the white box where everything happens.</p>
+    <p class="section__intro">The template gives you Zendesk's header, product tray, and sidebar. Your prototype goes inside <code>&lt;Main&gt;</code>.</p>
 
-    <div class="callout">
-      <span class="callout__tag">Key idea</span>
-      <p><strong>We give you the shell</strong> (navigation, header, sidebar). <strong>You build the content</strong> (your pages, tables, forms—everything inside <code>&lt;Main&gt;</code>).</p>
+    <div class="important">
+      <div class="important__header">
+        <span class="important__icon">⚠️</span>
+        <h3 class="important__title">Important</h3>
+      </div>
+      <p><strong>We give you the shell</strong> (navigation, header, sidebar). <strong>You build the content</strong> inside <code>&lt;Main&gt;</code>. That's it.</p>
+    </div>
+
+    <div class="diagram">
+      <h3>What is <code>&lt;Main&gt;</code>?</h3>
+      <img src="main-area.png" alt="Screenshot showing the Main content area" />
+      <p class="diagram__caption">The white area is <code>&lt;Main&gt;</code>. The header and sidebar are fixed—don't change them. Your content goes in the white box.</p>
     </div>
 
     <div class="cols">
       <div class="col">
-        <h3>✅ What's included</h3>
+        <h3>Included</h3>
         <ul>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Full header with product tray</li>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Left sidebar navigation</li>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Admin &amp; Support examples</li>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Flora design system</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Header with product tray</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Sidebar navigation</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Admin &amp; Support examples</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Flora design system</li>
         </ul>
       </div>
       <div class="col">
-        <h3>🎨 What you build</h3>
+        <h3>You build</h3>
         <ul>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Your page content</li>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Tables, forms, lists</li>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Custom components</li>
-          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Your prototype features</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Your page content</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Tables, forms, lists</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Components</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Features</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Quick start -->
+<!-- Setup -->
 <section class="section">
   <div class="container">
-    <span class="section__label">Get started</span>
-    <h2>The 6 steps</h2>
-    <p class="section__intro">From zero to a running prototype. Copy each command with one click.</p>
+    <span class="section__label">Setup</span>
+    <h2>Getting it running</h2>
+    <p class="section__intro">Copy the commands. They work.</p>
 
     <div class="steps">
       <div class="step">
         <div class="step__num">1</div>
         <div class="step__body">
-          <h3>Clone the design kit <span class="step__note">— one time only</span></h3>
+          <h3>Clone the design kit <span class="step__note">— once</span></h3>
           <div class="code">
             <div class="code__bar">
               <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
@@ -409,14 +462,14 @@ a:hover{text-decoration:underline}
 cd ~/zendesk/design-kits
 git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
           </div>
-          <p>You only do this once. The design kit stays there forever.</p>
+          <p>You only do this once.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step__num">2</div>
         <div class="step__body">
-          <h3>Create your project folder</h3>
+          <h3>Create project folder</h3>
           <div class="code">
             <div class="code__bar">
               <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
@@ -424,35 +477,30 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
             </div>
             <pre><code>mkdir ~/zendesk/prototypes/my-new-project</code></pre>
           </div>
-          <p>Use descriptive names like <code>asset-fields-v2</code> or <code>status-redesign</code>.</p>
+          <p>Name it whatever you want.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step__num">3</div>
         <div class="step__body">
-          <h3>Open the folder in Cursor</h3>
-          <p>In Cursor:</p>
-          <ul>
-            <li>Click <strong>File → Open Folder</strong></li>
-            <li>Navigate to <code>~/zendesk/prototypes/my-new-project</code></li>
-            <li>Click <strong>Open</strong></li>
-          </ul>
+          <h3>Open in Cursor</h3>
+          <p><strong>File → Open Folder</strong>, navigate to your project folder, click <strong>Open</strong>.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step__num">4</div>
         <div class="step__body">
-          <h3>Open the terminal</h3>
-          <p>Press <code>Ctrl + `</code> or click <strong>Terminal → New Terminal</strong></p>
+          <h3>Open terminal</h3>
+          <p>Press <code>Ctrl + `</code> or <strong>Terminal → New Terminal</strong></p>
         </div>
       </div>
 
       <div class="step">
         <div class="step__num">5</div>
         <div class="step__body">
-          <h3>Run the setup script</h3>
+          <h3>Run setup script</h3>
           <div class="code">
             <div class="code__bar">
               <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
@@ -460,14 +508,14 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
             </div>
             <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell</code></pre>
           </div>
-          <p>This copies the template, installs dependencies, and sets up git. Takes about 30 seconds.</p>
+          <p>Copies template, installs dependencies, sets up git. Takes ~30 seconds.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step__num">6</div>
         <div class="step__body">
-          <h3>Start the dev server</h3>
+          <h3>Start dev server</h3>
           <div class="code">
             <div class="code__bar">
               <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
@@ -480,42 +528,45 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
       </div>
     </div>
 
-    <div class="success-banner">
-      <div class="success-banner__icon">🎉</div>
-      <p>Done! Your prototype is running with full Zendesk navigation.</p>
+    <div class="important">
+      <div class="important__header">
+        <span class="important__icon">✓</span>
+        <h3 class="important__title">Done</h3>
+      </div>
+      <p>Your prototype is running. Start building in <code>&lt;Main&gt;</code>.</p>
     </div>
   </div>
 </section>
 
-<!-- Complete workflow -->
+<!-- Workflow -->
 <section class="section" style="background:var(--bg-accent)">
   <div class="container">
-    <span class="section__label">Beyond local dev</span>
+    <span class="section__label">Workflow</span>
     <h2>From local to production</h2>
-    <p class="section__intro">Built something great? Here's how to share it, version it, and hand it off to developers—all automated.</p>
+    <p class="section__intro">When you're ready to share, version, and hand off to developers.</p>
 
     <div class="callout">
-      <span class="callout__tag">New</span>
-      <p>These scripts were added in June 2026 based on the <a href="https://github.com/zendesk/itam-column-visibility-prototype" target="_blank">column-visibility prototype</a> workflow.</p>
+      <span class="callout__tag">Note</span>
+      <p>These scripts were added June 2026. Based on the <a href="https://github.com/zendesk/itam-column-visibility-prototype" target="_blank">column-visibility prototype</a>.</p>
     </div>
 
     <div class="workflow-phase">
       <div class="workflow-phase__header">
         <div class="workflow-phase__num">1</div>
         <div class="workflow-phase__title">
-          <h3>You're already here</h3>
-          <p class="workflow-phase__meta">Keep building locally until you're ready to share</p>
+          <h3>Keep building locally</h3>
+          <p class="workflow-phase__meta">You're already here</p>
         </div>
       </div>
-      <p>The 6 steps above got you to a working prototype. Keep iterating, testing, and building. No scripts needed—just code!</p>
+      <p>No scripts needed. Just code.</p>
     </div>
 
     <div class="workflow-phase">
       <div class="workflow-phase__header">
         <div class="workflow-phase__num">2</div>
         <div class="workflow-phase__title">
-          <h3>Share it with your team</h3>
-          <p class="workflow-phase__meta">When: Ready to show stakeholders</p>
+          <h3>Publish to GitHub</h3>
+          <p class="workflow-phase__meta">When ready to share</p>
         </div>
       </div>
       <div class="code">
@@ -525,7 +576,7 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
         </div>
         <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/publish-to-zendesk.sh</code></pre>
       </div>
-      <p>Creates a private repo at <code>zendesk/itam-{your-project}-prototype</code> + a live GitHub Pages site.</p>
+      <p>Creates private repo + live GitHub Pages site.</p>
     </div>
 
     <div class="workflow-phase">
@@ -533,7 +584,7 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
         <div class="workflow-phase__num">3</div>
         <div class="workflow-phase__title">
           <h3>Push updates</h3>
-          <p class="workflow-phase__meta">When: Made changes, want to update the live site</p>
+          <p class="workflow-phase__meta">When you make changes</p>
         </div>
       </div>
       <div class="code">
@@ -543,35 +594,34 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
         </div>
         <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/push-update.sh</code></pre>
       </div>
-      <p>Handles version bumping (patch/minor/major) + CHANGELOG updates + site rebuild. All automatic.</p>
+      <p>Version bumping + CHANGELOG + site rebuild.</p>
     </div>
 
     <div class="workflow-phase">
       <div class="workflow-phase__header">
         <div class="workflow-phase__num">4</div>
         <div class="workflow-phase__title">
-          <h3>Run production checks</h3>
-          <p class="workflow-phase__meta">Optional, but helpful before developer handoff</p>
+          <h3>Production checks</h3>
+          <p class="workflow-phase__meta">Before developer handoff</p>
         </div>
       </div>
-      <p>Three scripts to check quality:</p>
       <div class="code">
         <div class="code__bar">
-          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Code quality</span>
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Code</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
         <pre><code>~/zendesk/design-kits/.../scripts/check-production-compliance.sh</code></pre>
       </div>
       <div class="code">
         <div class="code__bar">
-          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Translations</span>
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>i18n</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
         <pre><code>~/zendesk/design-kits/.../scripts/check-translations.sh</code></pre>
       </div>
       <div class="code">
         <div class="code__bar">
-          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Accessibility</span>
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>a11y</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
         <pre><code>~/zendesk/design-kits/.../scripts/audit-accessibility.sh</code></pre>
@@ -582,8 +632,8 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
       <div class="workflow-phase__header">
         <div class="workflow-phase__num">5</div>
         <div class="workflow-phase__title">
-          <h3>Hand it off to devs</h3>
-          <p class="workflow-phase__meta">When: 100% done and ready for production</p>
+          <h3>Finalize handoff</h3>
+          <p class="workflow-phase__meta">When completely done</p>
         </div>
       </div>
       <div class="code">
@@ -593,12 +643,12 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
         </div>
         <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/finalize-handoff.sh</code></pre>
       </div>
-      <p>Runs all checks, generates IMPLEMENTATION.md, bumps to v1.0.0, and creates a complete handoff package.</p>
+      <p>Runs all checks, generates docs, bumps to v1.0.0.</p>
     </div>
 
     <div class="callout">
-      <span class="callout__tag">Documentation</span>
-      <p>Full docs in <code>scripts/README.md</code> — examples, troubleshooting, and detailed guides for each script.</p>
+      <span class="callout__tag">Docs</span>
+      <p>Full documentation in <code>scripts/README.md</code>.</p>
     </div>
   </div>
 </section>
@@ -606,37 +656,35 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
 <!-- Tips -->
 <section class="section">
   <div class="container">
-    <span class="section__label">Work faster</span>
-    <h2>Pro tips</h2>
-    <p class="section__intro">Small habits that make prototyping feel effortless.</p>
+    <span class="section__label">Tips</span>
+    <h2>Useful shortcuts</h2>
 
     <div class="cols">
       <div class="col">
-        <h3>💬 Use Cursor's AI chat</h3>
-        <p style="margin-bottom:12px">Press <code>⌘L</code> and ask:</p>
+        <h3>AI chat</h3>
+        <p style="margin-bottom:12px">Press <code>⌘L</code> in Cursor:</p>
         <ul style="gap:8px">
           <li>"Add a page for asset statuses"</li>
           <li>"Create a table for locations"</li>
-          <li>"Update styling to match Garden"</li>
         </ul>
       </div>
       <div class="col">
-        <h3>⚡ Jump to any file</h3>
-        <p>Press <code>⌘P</code> and type a filename to open it instantly.</p>
+        <h3>File navigation</h3>
+        <p>Press <code>⌘P</code> and type filename.</p>
       </div>
     </div>
 
     <div class="callout" style="margin-top:32px">
       <span class="callout__tag">Template guide</span>
-      <p>Open <code>TEMPLATE_GUIDE.md</code> in your project for detailed documentation and developer handoff guidelines.</p>
+      <p>Open <code>TEMPLATE_GUIDE.md</code> for detailed documentation.</p>
     </div>
   </div>
 </section>
 
 <!-- Footer -->
 <div class="footer">
-  <p>Made with care by the Employee Service design team</p>
-  <p style="margin-top:12px;opacity:0.7">Internal Zendesk use only · © 2026 Zendesk, Inc.</p>
+  <p>Employee Service design team</p>
+  <p style="margin-top:12px;opacity:0.7">Internal Zendesk use only · © 2026</p>
 </div>
 
 <script>
@@ -646,7 +694,7 @@ function copyCode(btn) {
   navigator.clipboard.writeText(text).then(() => {
     const orig = btn.textContent;
     btn.textContent = 'Copied!';
-    btn.style.background = 'rgba(15,109,58,0.3)';
+    btn.style.background = 'rgba(26,115,232,0.3)';
     setTimeout(() => {
       btn.textContent = orig;
       btn.style.background = '';

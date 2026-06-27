@@ -4,798 +4,655 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ITAM Shell Template · Setup guide</title>
-<meta name="description" content="A 6-step setup guide for the ITAM Shell Template — a ready-made Zendesk navigation shell for prototyping." />
+<meta name="description" content="Get your prototype running in minutes with this ready-made Zendesk navigation shell." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
 :root{
   --bg:#ffffff;
-  --bg-soft:#f4f6f7;
-  --ink:#0a2c33;
-  --text:#1c272d;
-  --muted:#56636b;
-  --faint:#8a949b;
-  --line:#dde2e4;
-  --line-2:#e8ecee;
-  --accent:#159b93;
-  --accent-ink:#0b5f5a;
-  --accent-wash:#e7f6f4;
-  --code-bg:#0d1117;
-  --code-bar:#161b22;
-  --code-border:#2b3340;
-  --radius:14px;
+  --bg-soft:#f8fafb;
+  --bg-accent:#f0f7ff;
+  --ink:#0d1f2d;
+  --text:#1c2f3e;
+  --muted:#5a6c7d;
+  --faint:#8a9ba8;
+  --line:#d1dce5;
+  --line-soft:#e5edf3;
+  --accent:#1a73e8;
+  --accent-dark:#1557b0;
+  --accent-wash:#e8f1ff;
+  --success:#0f6d3a;
+  --success-wash:#e6f7ed;
+  --code-bg:#1a1f2e;
+  --code-bar:#0f1419;
+  --code-text:#e6edf3;
+  --radius:16px;
   --radius-sm:10px;
-  --maxw:780px;
-  --rail-h:56px;
+  --maxw:820px;
   --font-sans:'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display:var(--font-sans);
   --font-mono:'JetBrains Mono','SF Mono','Monaco','Courier New', monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-sans);font-size:16px;color:var(--text);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-::selection{background:var(--accent-wash);color:var(--accent-ink)}
-a{color:var(--accent-ink);text-decoration:none}
+body{
+  font-family:var(--font-sans);
+  font-size:17px;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--accent-wash);color:var(--accent-dark)}
+a{color:var(--accent);text-decoration:none;font-weight:500}
 a:hover{text-decoration:underline}
 
-/* scroll progress */
-#progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:120;transition:width .08s linear}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 28px}
 
-/* sticky step nav (the only nav) */
-.rail{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
-.rail.stuck{border-bottom-color:var(--line)}
-.rail__inner{max-width:var(--maxw);margin:0 auto;height:var(--rail-h);padding:0 24px;display:flex;align-items:center;gap:16px}
-.rail__label{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--muted);white-space:nowrap}
-.rail__label b{color:var(--accent-ink)}
-.rail__steps{display:flex;align-items:center;gap:0;flex:1;min-width:0}
-.rail__step{position:relative;flex:1;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;padding:6px 0;font-family:var(--font-sans)}
-.rail__step .num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--muted);background:var(--bg-soft);border:1px solid var(--line);transition:all .25s;z-index:1}
-.rail__step:hover .num{border-color:var(--accent);color:var(--accent-ink)}
-.rail__step.active .num{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 0 4px var(--accent-wash)}
-.rail__step.done .num{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
-.rail__step::before,.rail__step::after{content:"";position:absolute;top:50%;height:2px;width:50%;background:var(--line);transform:translateY(-50%)}
-.rail__step::before{left:0}
-.rail__step::after{right:0}
-.rail__step:first-child::before,.rail__step:last-child::after{display:none}
-.rail__step.done::before,.rail__step.done::after,.rail__step.active::before{background:var(--accent)}
-
-/* layout */
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-section{scroll-margin-top:calc(var(--rail-h) + 16px)}
-.block{padding:64px 0}
-.block + .block{border-top:1px solid var(--line-2)}
-
-/* headings */
-.label{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
-h2{font-family:var(--font-display);font-weight:700;font-size:clamp(27px,4vw,34px);color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin:14px 0 14px}
-.lede{font-size:18px;color:var(--muted);max-width:62ch;margin-bottom:36px;line-height:1.6}
-h3{font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--ink);margin:0 0 10px}
-p{margin:0 0 14px}
-code{font-family:var(--font-mono);font-size:.9em;background:var(--bg-soft);border:1px solid var(--line);padding:1px 6px;border-radius:6px;color:var(--accent-ink)}
-
-/* hero */
-.hero{padding:92px 0 56px}
-.hero h1{font-family:var(--font-display);font-weight:700;font-size:clamp(38px,6vw,58px);line-height:1.06;letter-spacing:-.03em;color:var(--ink);margin:16px 0 0;max-width:16ch}
-.hero p{font-size:20px;color:var(--text);margin:22px 0 0;max-width:54ch;line-height:1.55}
-
-/* prereq */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tile{border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px;background:var(--bg)}
-.tile h4{font-size:16px;font-weight:600;color:var(--ink);margin:0 0 4px;display:flex;align-items:center;gap:9px}
-.tile h4 svg{width:17px;height:17px;color:var(--accent-ink);flex-shrink:0}
-.tile p{font-size:15px;color:var(--muted);margin:0;line-height:1.55}
-
-/* feature lists */
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-.checks{list-style:none;display:grid;gap:10px}
-.checks li{display:flex;gap:10px;font-size:16px;color:var(--text);align-items:flex-start}
-.checks li svg{width:17px;height:17px;flex-shrink:0;margin-top:4px;color:var(--accent-ink)}
-.checks.warn li svg{color:var(--faint)}
-
-/* callout (minimal) */
-.note{border-left:3px solid var(--accent);background:var(--accent-wash);padding:15px 18px;border-radius:0 10px 10px 0;margin:22px 0;font-size:15.5px;color:var(--text)}
-.note b{color:var(--ink)}
-.note.plain{border-left-color:var(--line);background:var(--bg-soft)}
-.note .tag{font-weight:600;color:var(--accent-ink);margin-right:6px}
-
-/* steps */
-.steps{display:grid;gap:14px;margin-top:8px}
-.step{display:grid;grid-template-columns:36px 1fr;gap:18px;border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;transition:border-color .3s,box-shadow .3s}
-.step.is-current{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash)}
-.step__num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--accent-ink);background:var(--accent-wash);border:1px solid var(--accent)}
-.step.is-done .step__num{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
-.step__body{min-width:0}
-.step__body h3{margin-bottom:4px}
-.step__body>p{font-size:15.5px;color:var(--muted);margin:8px 0}
-.step__body ul{list-style:none;display:grid;gap:9px;margin:10px 0 2px}
-.step__body ul li{display:flex;gap:10px;font-size:16px;color:var(--text)}
-.step__body ul li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:10px;flex-shrink:0}
-.kbd{font-family:var(--font-mono);font-size:.85em;background:var(--bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 7px;color:var(--ink)}
-
-/* code block — terminal / editor window */
-.code{border-radius:12px;overflow:hidden;margin:16px 0;background:var(--code-bg);border:1px solid var(--code-border);box-shadow:0 12px 32px rgba(13,17,23,.18)}
-.code__bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--code-bar);border-bottom:1px solid var(--code-border)}
-.code__dots{display:flex;gap:7px}
-.code__dots i{width:12px;height:12px;border-radius:50%;display:block}
-.code__dots i:nth-child(1){background:#ff5f56}
-.code__dots i:nth-child(2){background:#ffbd2e}
-.code__dots i:nth-child(3){background:#27c93f}
-.code__lang{font-family:var(--font-mono);font-size:12px;font-weight:500;color:#8b949e;flex:1;display:flex;align-items:center;gap:7px}
-.code__lang svg{width:13px;height:13px;opacity:.8}
-.code__copy{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-sans);font-size:12.5px;font-weight:600;color:#c9d1d9;background:#21262d;border:1px solid #30363d;padding:5px 11px;border-radius:7px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
-.code__copy:hover{background:#30363d;border-color:#3d444d}
-.code__copy svg{width:13px;height:13px}
-.code__copy.copied{color:#56d364;border-color:rgba(86,211,100,.45)}
-.code pre{margin:0;padding:16px 18px;overflow-x:auto}
-.code code{font-family:var(--font-mono);font-size:13.5px;line-height:1.75;color:#e6edf3;white-space:pre;background:none;border:none;padding:0}
-.code .prompt{color:#56d364;font-weight:600;-webkit-user-select:none;user-select:none}
-.code .c{color:#8b949e;font-style:italic}
-.code .s{color:#a5d6ff}
-.code .u{color:#a5d6ff;text-decoration:underline}
-.code .f{color:#ffa657}
-.code .p{color:#7ee787}
-.code .v{color:#ffa657}
-.code .k{color:#ff7b72}
-.code .t{color:#7ee787}
-.code .n{color:#79c0ff}
-
-/* accordion */
-.acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:12px 0;background:var(--bg)}
-.acc__head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;background:none;border:none;cursor:pointer;text-align:left;font-family:var(--font-sans);font-size:15px;font-weight:600;color:var(--ink)}
-.acc__head:hover{background:var(--bg-soft)}
-.acc__head .chev{transition:transform .3s;color:var(--muted);flex-shrink:0;display:grid;place-items:center}
-.acc__head .chev svg{width:18px;height:18px}
-.acc.open .acc__head .chev{transform:rotate(180deg)}
-.acc__panel{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.acc__inner{padding:0 20px 18px}
-.acc__inner p{font-size:14px;color:var(--muted);margin:0 0 4px}
-
-/* layout screenshot */
-.shot{margin:8px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-soft)}
-.shot img{display:block;width:100%;height:auto}
-.shot figcaption{font-size:14px;color:var(--muted);padding:14px 18px;border-top:1px solid var(--line);background:var(--bg)}
-.shot figcaption code{font-size:.92em}
-
-/* spec list */
-.spec{border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.spec div{display:flex;justify-content:space-between;gap:16px;padding:11px 16px;font-size:14px;border-top:1px solid var(--line-2)}
-.spec div:first-child{border-top:none}
-.spec div span:first-child{color:var(--muted)}
-.spec div span:last-child{font-family:var(--font-mono);color:var(--accent-ink)}
-
-/* tips */
-.tips{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tip h4{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 6px}
-.tip p{font-size:14px;color:var(--muted);margin:0 0 6px}
-.tip ul{list-style:none;display:grid;gap:6px;margin-top:6px}
-.tip ul li{font-size:13.5px;color:var(--text);padding-left:14px;position:relative}
-.tip ul li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:700}
-
-/* resources */
-.res-list{display:grid;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.res{display:flex;align-items:center;gap:14px;padding:16px 18px;border-top:1px solid var(--line-2)}
-.res:first-child{border-top:none}
-.res:hover{background:var(--bg-soft);text-decoration:none}
-.res__t{font-size:15px;font-weight:600;color:var(--ink)}
-.res__d{font-size:13px;color:var(--muted);font-family:var(--font-mono)}
-.res .arrow{margin-left:auto;color:var(--faint);transition:transform .2s}
-.res:hover .arrow{transform:translateX(3px);color:var(--accent)}
-.res .arrow svg{width:16px;height:16px;display:block}
-
-/* closing */
-.closing{text-align:center;padding:48px 24px;font-size:12.5px;color:var(--faint)}
-
-/* reveal */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
-.reveal.in{opacity:1;transform:none}
-
-/* responsive */
-@media (max-width:640px){
-  .grid,.cols,.tips{grid-template-columns:1fr;gap:18px}
-  .rail__label{display:none}
-  .step{grid-template-columns:1fr;gap:12px;padding:20px}
-  .hero{padding:72px 0 48px}
+/* Hero */
+.hero{
+  background:linear-gradient(135deg, var(--bg-accent) 0%, var(--bg-soft) 100%);
+  border-bottom:1px solid var(--line-soft);
+  padding:80px 28px 70px;
+  text-align:center;
 }
-@media (prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .reveal{opacity:1;transform:none}
+.hero__badge{
+  display:inline-block;
+  padding:6px 14px;
+  background:var(--success);
+  color:#fff;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:0.02em;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:clamp(38px,5vw,54px);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+.hero__lede{
+  font-size:20px;
+  color:var(--muted);
+  max-width:580px;
+  margin:0 auto;
+  line-height:1.6;
+}
+
+/* Section */
+.section{padding:70px 0;border-bottom:1px solid var(--line-soft)}
+.section__label{
+  display:inline-block;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+}
+.section h2{
+  font-size:clamp(30px,4vw,40px);
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:20px;
+}
+.section__intro{
+  font-size:19px;
+  color:var(--muted);
+  line-height:1.65;
+  margin-bottom:40px;
+}
+
+/* Callout */
+.callout{
+  background:var(--accent-wash);
+  border-left:4px solid var(--accent);
+  padding:20px 24px;
+  border-radius:var(--radius-sm);
+  margin:32px 0;
+}
+.callout__tag{
+  display:inline-block;
+  padding:3px 10px;
+  background:var(--accent);
+  color:#fff;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:10px;
+}
+.callout p{margin:0;line-height:1.6;color:var(--text)}
+.callout strong{color:var(--ink)}
+
+/* Two cols */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:40px 0}
+.col h3{font-size:20px;font-weight:600;color:var(--ink);margin-bottom:16px}
+.col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.col li{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  font-size:16px;
+  line-height:1.6;
+  color:var(--text);
+}
+.col li svg{flex-shrink:0;width:20px;height:20px;margin-top:2px}
+.col li.success svg{color:var(--success)}
+.col code{
+  background:var(--bg-soft);
+  padding:3px 8px;
+  border-radius:6px;
+  font-family:var(--font-mono);
+  font-size:14px;
+  color:var(--accent-dark);
+  font-weight:500;
+}
+
+/* Steps */
+.steps{display:flex;flex-direction:column;gap:32px;margin-top:40px}
+.step{
+  display:flex;
+  gap:24px;
+  padding:28px;
+  background:var(--bg-soft);
+  border-radius:var(--radius);
+  border:2px solid var(--line-soft);
+  transition:border-color 0.2s;
+}
+.step:hover{border-color:var(--accent)}
+.step__num{
+  flex-shrink:0;
+  width:48px;
+  height:48px;
+  background:linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:22px;
+  box-shadow:0 4px 12px rgba(26,115,232,0.25);
+}
+.step__body{flex:1;min-width:0}
+.step h3{
+  font-size:22px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+.step__note{
+  font-size:15px;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:4px;
+}
+.step p{font-size:16px;line-height:1.65;color:var(--text);margin-bottom:16px}
+.step ul{list-style:none;padding-left:0;display:flex;flex-direction:column;gap:8px}
+.step li{
+  font-size:16px;
+  line-height:1.6;
+  color:var(--text);
+  padding-left:24px;
+  position:relative;
+}
+.step li::before{
+  content:'→';
+  position:absolute;
+  left:0;
+  color:var(--accent);
+  font-weight:600;
+}
+
+/* Code blocks */
+.code{
+  background:var(--code-bg);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  margin:20px 0;
+  box-shadow:0 8px 24px rgba(0,0,0,0.12);
+}
+.code__bar{
+  background:var(--code-bar);
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.code__lang{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:rgba(255,255,255,0.7);
+  font-weight:500;
+}
+.code__lang svg{width:16px;height:16px}
+.code__copy{
+  padding:6px 14px;
+  background:rgba(255,255,255,0.1);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.code__copy:hover{background:rgba(255,255,255,0.2)}
+.code pre{
+  padding:20px;
+  margin:0;
+  overflow-x:auto;
+  background:transparent;
+}
+.code code{
+  font-family:var(--font-mono);
+  font-size:14px;
+  line-height:1.7;
+  color:var(--code-text);
+  background:transparent;
+}
+
+/* Workflow phases */
+.workflow-phase{
+  padding:28px;
+  background:var(--bg-soft);
+  border-radius:var(--radius);
+  border:2px solid var(--line-soft);
+  margin-bottom:24px;
+}
+.workflow-phase__header{display:flex;align-items:flex-start;gap:20px;margin-bottom:20px}
+.workflow-phase__num{
+  flex-shrink:0;
+  width:44px;
+  height:44px;
+  background:linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:20px;
+}
+.workflow-phase__title{flex:1}
+.workflow-phase h3{
+  font-size:22px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.workflow-phase__meta{
+  font-size:15px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.workflow-phase p{
+  font-size:16px;
+  line-height:1.65;
+  color:var(--text);
+  margin-bottom:12px;
+}
+
+/* Success banner */
+.success-banner{
+  background:var(--success-wash);
+  border:2px solid var(--success);
+  border-radius:var(--radius);
+  padding:24px;
+  text-align:center;
+  margin:32px 0;
+}
+.success-banner__icon{
+  font-size:40px;
+  margin-bottom:12px;
+}
+.success-banner p{
+  font-size:18px;
+  font-weight:600;
+  color:var(--success);
+  margin:0;
+}
+
+/* Footer */
+.footer{
+  padding:60px 28px 40px;
+  text-align:center;
+  background:var(--bg-soft);
+  border-top:1px solid var(--line-soft);
+  color:var(--muted);
+  font-size:15px;
+}
+
+/* Responsive */
+@media (max-width:768px){
+  .hero{padding:60px 24px 50px}
+  .hero h1{font-size:36px}
+  .section{padding:50px 0}
+  .cols{grid-template-columns:1fr;gap:28px}
+  .step{flex-direction:column;gap:20px;padding:24px}
+  .step__num{width:44px;height:44px;font-size:20px}
 }
 </style>
 </head>
 <body>
-<div id="progress"></div>
 
-<nav class="rail" id="rail" aria-label="Setup steps">
-  <div class="rail__inner">
-    <span class="rail__label">Step <b id="stepCur">1</b> / 6</span>
-    <div class="rail__steps" id="railSteps">
-      <button class="rail__step active" data-go="1" title="Clone the design kit"><span class="num">1</span></button>
-      <button class="rail__step" data-go="2" title="Create your project folder"><span class="num">2</span></button>
-      <button class="rail__step" data-go="3" title="Open the folder in Cursor"><span class="num">3</span></button>
-      <button class="rail__step" data-go="4" title="Open the terminal"><span class="num">4</span></button>
-      <button class="rail__step" data-go="5" title="Run the setup script"><span class="num">5</span></button>
-      <button class="rail__step" data-go="6" title="Start the dev server"><span class="num">6</span></button>
+<!-- Hero -->
+<div class="hero">
+  <div class="hero__badge">ITAM Shell Template</div>
+  <h1>Get your prototype running in 6 steps</h1>
+  <p class="hero__lede">A ready-made Zendesk shell with Admin Center and Support chrome already wired up. Skip the boilerplate and start building your ideas.</p>
+</div>
+
+<!-- What is this -->
+<section class="section">
+  <div class="container">
+    <span class="section__label">What you're getting</span>
+    <h2>The shell is built. You build the content.</h2>
+    <p class="section__intro">The template gives you Zendesk's header, product tray, and sidebar. Your prototype goes inside <code>&lt;Main&gt;</code>—that's the white box where everything happens.</p>
+
+    <div class="callout">
+      <span class="callout__tag">Key idea</span>
+      <p><strong>We give you the shell</strong> (navigation, header, sidebar). <strong>You build the content</strong> (your pages, tables, forms—everything inside <code>&lt;Main&gt;</code>).</p>
     </div>
-  </div>
-</nav>
 
-<header class="hero wrap">
-  <span class="label reveal in">ITAM Shell Template</span>
-  <h1 class="reveal in">Set up your prototype in six steps.</h1>
-  <p class="reveal in">A ready-made Zendesk navigation shell — Admin Center and Support chrome, already wired up. Skip the boilerplate and build your content.</p>
-</header>
-
-<!-- PREREQUISITES -->
-<section class="block" id="prereq">
-  <div class="wrap">
-    <span class="label reveal">Before you start</span>
-    <h2 class="reveal">What you'll need</h2>
-    <p class="lede reveal">Four quick things. If you've prototyped with the design kit before, you're already set.</p>
-    <div class="grid">
-      <div class="tile reveal">
-        <h4><svg viewBox="0 0 24 24" fill="none"><path d="M4 17l6-6-6-6M12 19h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Cursor installed</h4>
-        <p>The editor we build in. <a href="https://cursor.com" target="_blank" rel="noopener">Download Cursor</a></p>
-      </div>
-      <div class="tile reveal">
-        <h4><svg viewBox="0 0 24 24" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.5 1.3a12 12 0 0 0-6.3 0C6.5 2 5.5 2.3 5.5 2.3a4.3 4.3 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 8.7c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>GitHub access</h4>
-        <p>Membership in the <code>zendesk</code> org with an SSH key set up.</p>
-      </div>
-      <div class="tile reveal">
-        <h4><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Node.js &amp; npm</h4>
-        <p>Node 18+ recommended. The script installs the rest.</p>
-      </div>
-      <div class="tile reveal">
-        <h4><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 9l3 3-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Terminal basics</h4>
-        <p>Comfort running a command. Every one below has a copy button.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- OVERVIEW -->
-<section class="block" id="overview">
-  <div class="wrap">
-    <span class="label reveal">The idea</span>
-    <h2 class="reveal">The shell is built. You build the content.</h2>
-    <p class="lede reveal">The template ships with Zendesk's header, product tray, and sidebar. Your prototype goes inside the <code>&lt;Main&gt;</code> area.</p>
     <div class="cols">
-      <div class="reveal">
-        <h3>Included in the template</h3>
-        <ul class="checks">
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full header with product tray</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Left sidebar navigation</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Admin Center &amp; Support examples</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Flora design system wired up</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Spacing &amp; typography tokens</li>
+      <div class="col">
+        <h3>✅ What's included</h3>
+        <ul>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Full header with product tray</li>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Left sidebar navigation</li>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Admin &amp; Support examples</li>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Flora design system</li>
         </ul>
       </div>
-      <div class="reveal">
-        <h3>What you build</h3>
-        <ul class="checks">
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Your page content</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Tables, forms, and lists</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom components</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Data and logic</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything inside <code>&lt;Main&gt;</code></li>
+      <div class="col">
+        <h3>🎨 What you build</h3>
+        <ul>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Your page content</li>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Tables, forms, lists</li>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Custom components</li>
+          <li class="success"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Your prototype features</li>
         </ul>
       </div>
     </div>
-    <div class="note reveal"><span class="tag">Key concept</span>the template provides the <b>shell</b> (navigation); you build the <b>content</b> (your pages), all inside <code>&lt;Main&gt;</code>.</div>
   </div>
 </section>
-<!-- SETUP -->
-<section class="block" id="setup">
-  <div class="wrap">
-    <span class="label reveal">Quick start · Cursor workflow</span>
-    <h2 class="reveal">The six steps</h2>
-    <p class="lede reveal">From zero to a running prototype. Copy each command with one click.</p>
 
-    <div class="steps" id="steps">
-      <article class="step reveal" id="step-1" data-step="1">
+<!-- Quick start -->
+<section class="section">
+  <div class="container">
+    <span class="section__label">Get started</span>
+    <h2>The 6 steps</h2>
+    <p class="section__intro">From zero to a running prototype. Copy each command with one click.</p>
+
+    <div class="steps">
+      <div class="step">
         <div class="step__num">1</div>
         <div class="step__body">
-          <h3>Clone the design kit <span style="font-weight:400;color:var(--faint);font-size:14px">— one time only</span></h3>
+          <h3>Clone the design kit <span class="step__note">— one time only</span></h3>
           <div class="code">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">mkdir -p ~/zendesk/design-kits ~/zendesk/prototypes
+            <div class="code__bar">
+              <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+              <button class="code__copy" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>mkdir -p ~/zendesk/design-kits ~/zendesk/prototypes
 cd ~/zendesk/design-kits
 git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
           </div>
-          <p>You only do this once — the design kit stays there.</p>
+          <p>You only do this once. The design kit stays there forever.</p>
         </div>
-      </article>
+      </div>
 
-      <article class="step reveal" id="step-2" data-step="2">
+      <div class="step">
         <div class="step__num">2</div>
         <div class="step__body">
           <h3>Create your project folder</h3>
           <div class="code">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">mkdir ~/zendesk/prototypes/my-new-project</code></pre>
+            <div class="code__bar">
+              <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+              <button class="code__copy" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>mkdir ~/zendesk/prototypes/my-new-project</code></pre>
           </div>
           <p>Use descriptive names like <code>asset-fields-v2</code> or <code>status-redesign</code>.</p>
         </div>
-      </article>
+      </div>
 
-      <article class="step reveal" id="step-3" data-step="3">
+      <div class="step">
         <div class="step__num">3</div>
         <div class="step__body">
           <h3>Open the folder in Cursor</h3>
+          <p>In Cursor:</p>
           <ul>
-            <li>Click <strong>File &rsaquo; Open Folder</strong></li>
+            <li>Click <strong>File → Open Folder</strong></li>
             <li>Navigate to <code>~/zendesk/prototypes/my-new-project</code></li>
             <li>Click <strong>Open</strong></li>
           </ul>
         </div>
-      </article>
+      </div>
 
-      <article class="step reveal" id="step-4" data-step="4">
+      <div class="step">
         <div class="step__num">4</div>
         <div class="step__body">
-          <h3>Open the integrated terminal</h3>
-          <p>Press <span class="kbd">Ctrl</span> <span class="kbd">`</span> or use <strong>Terminal &rsaquo; New Terminal</strong>.</p>
+          <h3>Open the terminal</h3>
+          <p>Press <code>Ctrl + `</code> or click <strong>Terminal → New Terminal</strong></p>
         </div>
-      </article>
+      </div>
 
-      <article class="step reveal" id="step-5" data-step="5">
+      <div class="step">
         <div class="step__num">5</div>
         <div class="step__body">
           <h3>Run the setup script</h3>
           <div class="code">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell</code></pre>
+            <div class="code__bar">
+              <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+              <button class="code__copy" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell</code></pre>
           </div>
-          <p>Copies the template, installs dependencies, and initializes git. ~30 seconds.</p>
+          <p>This copies the template, installs dependencies, and sets up git. Takes about 30 seconds.</p>
         </div>
-      </article>
+      </div>
 
-      <article class="step reveal" id="step-6" data-step="6">
+      <div class="step">
         <div class="step__num">6</div>
         <div class="step__body">
           <h3>Start the dev server</h3>
           <div class="code">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">npm run dev</code></pre>
+            <div class="code__bar">
+              <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+              <button class="code__copy" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>npm run dev</code></pre>
           </div>
           <p>Open <code>http://localhost:5173</code> in your browser.</p>
         </div>
-      </article>
-    </div>
-
-    <div class="note reveal"><span class="tag">Done</span>your prototype is running with full Zendesk navigation and Flora styling.</div>
-  </div>
-</section>
-
-<!-- MAIN AREA -->
-<section class="block" id="main-area">
-  <div class="wrap">
-    <span class="label reveal">Where your work lives</span>
-    <h2 class="reveal">The &lt;Main&gt; content area</h2>
-    <p class="lede reveal">The <code>&lt;Main&gt;</code> component is the open canvas where all your prototype content lives.</p>
-
-    <figure class="shot reveal">
-      <img src="assets/main-layout.png" alt="The Zendesk shell: fixed header along the top, icon sidebar on the left, and a large empty white content area in the center that represents the Main component." width="1024" height="728" />
-      <figcaption>The Zendesk shell — the header and left sidebar are fixed. The large white area is <code>&lt;Main&gt;</code>, where all your prototype content goes.</figcaption>
-    </figure>
-
-    <div class="cols reveal" style="margin-top:28px">
-      <div>
-        <h3>What goes inside</h3>
-        <ul class="checks">
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Page components — tables, forms, lists</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Breadcrumbs</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Page titles &amp; descriptions</li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything users interact with</li>
-        </ul>
       </div>
     </div>
 
-    <h3 class="reveal" style="margin:28px 0 0">Code example</h3>
-    <div class="code reveal">
-      <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 7l-2 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>App.tsx</span><button class="code__copy" type="button">Copy</button></div>
-      <pre><code data-lang="tsx">&lt;Main id="main-content"&gt;
-  &lt;div style={{ padding: '20px 40px' }}&gt;
-    &lt;h1&gt;My page title&lt;/h1&gt;
-    &lt;p&gt;Description text&lt;/p&gt;
-
-    &lt;div style={{ marginTop: 32 }}&gt;
-      {/* Your content here */}
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/Main&gt;</code></pre>
-    </div>
-  </div>
-</section>
-<!-- PRODUCT SWITCHER -->
-<section class="block" id="switcher">
-  <div class="wrap">
-    <span class="label reveal">Admin Center &harr; Support</span>
-    <h2 class="reveal">The product switcher</h2>
-    <p class="lede reveal">The template includes both products. Users switch between them with the product tray.</p>
-
-    <div class="step__body reveal">
-      <ul>
-        <li>Click the <strong>product tray button</strong> (top-left, reads "Admin center")</li>
-        <li>Select <strong>Support</strong> from the dropdown</li>
-        <li>The page switches to the Support view with its own navigation</li>
-        <li>Click again to switch back</li>
-      </ul>
-    </div>
-
-    <div class="note reveal"><span class="tag">Tip</span>each product has its own page file: <code>src/pages/FieldOrder.tsx</code> (Admin Center) and <code>src/pages/SupportFieldOrder.tsx</code> (Support).</div>
-
-    <h3 class="reveal" style="margin:28px 0 12px">Only need one product? Disable the switcher.</h3>
-
-    <div class="acc reveal">
-      <button class="acc__head" type="button">
-        <span>Option 1 — Remove the product tray completely</span>
-        <span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </button>
-      <div class="acc__panel"><div class="acc__inner">
-        <p>In <code>src/App.tsx</code>, drop the <code>products</code> prop on line 83:</p>
-        <div class="code">
-          <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 7l-2 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>App.tsx</span><button class="code__copy" type="button">Copy</button></div>
-          <pre><code data-lang="tsx">// Before
-&lt;Product key={currentProduct} locale="en-US" isFlora products={products}&gt;
-
-// After (no products prop = no product tray)
-&lt;Product key={currentProduct} locale="en-US" isFlora&gt;</code></pre>
-        </div>
-      </div></div>
-    </div>
-
-    <div class="acc reveal">
-      <button class="acc__head" type="button">
-        <span>Option 2 — Lock to a single product</span>
-        <span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </button>
-      <div class="acc__panel"><div class="acc__inner">
-        <p>In <code>src/App.tsx</code>, remove the switcher logic and render one view:</p>
-        <div class="code">
-          <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 7l-2 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>App.tsx</span><button class="code__copy" type="button">Copy</button></div>
-          <pre><code data-lang="tsx">// Remove useState and product switching.
-&lt;Product locale="en-US" isFlora&gt;
-  &lt;AppHeader product="admin-center" /&gt;
-  &lt;Sidebar /&gt;
-  &lt;Main id="main-content"&gt;
-    &lt;FieldOrder /&gt;
-  &lt;/Main&gt;
-&lt;/Product&gt;</code></pre>
-        </div>
-      </div></div>
+    <div class="success-banner">
+      <div class="success-banner__icon">🎉</div>
+      <p>Done! Your prototype is running with full Zendesk navigation.</p>
     </div>
   </div>
 </section>
 
-<!-- CHANGE VS KEEP -->
-<section class="block" id="change-keep">
-  <div class="wrap">
-    <span class="label reveal">Stay in your lane</span>
-    <h2 class="reveal">Change vs. keep</h2>
-    <p class="lede reveal">A simple rule keeps your prototype upgrade-safe and on-brand.</p>
+<!-- Complete workflow -->
+<section class="section" style="background:var(--bg-accent)">
+  <div class="container">
+    <span class="section__label">Beyond local dev</span>
+    <h2>From local to production</h2>
+    <p class="section__intro">Built something great? Here's how to share it, version it, and hand it off to developers—all automated.</p>
+
+    <div class="callout">
+      <span class="callout__tag">New</span>
+      <p>These scripts were added in June 2026 based on the <a href="https://github.com/zendesk/itam-column-visibility-prototype" target="_blank">column-visibility prototype</a> workflow.</p>
+    </div>
+
+    <div class="workflow-phase">
+      <div class="workflow-phase__header">
+        <div class="workflow-phase__num">1</div>
+        <div class="workflow-phase__title">
+          <h3>You're already here</h3>
+          <p class="workflow-phase__meta">Keep building locally until you're ready to share</p>
+        </div>
+      </div>
+      <p>The 6 steps above got you to a working prototype. Keep iterating, testing, and building. No scripts needed—just code!</p>
+    </div>
+
+    <div class="workflow-phase">
+      <div class="workflow-phase__header">
+        <div class="workflow-phase__num">2</div>
+        <div class="workflow-phase__title">
+          <h3>Share it with your team</h3>
+          <p class="workflow-phase__meta">When: Ready to show stakeholders</p>
+        </div>
+      </div>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+          <button class="code__copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/publish-to-zendesk.sh</code></pre>
+      </div>
+      <p>Creates a private repo at <code>zendesk/itam-{your-project}-prototype</code> + a live GitHub Pages site.</p>
+    </div>
+
+    <div class="workflow-phase">
+      <div class="workflow-phase__header">
+        <div class="workflow-phase__num">3</div>
+        <div class="workflow-phase__title">
+          <h3>Push updates</h3>
+          <p class="workflow-phase__meta">When: Made changes, want to update the live site</p>
+        </div>
+      </div>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+          <button class="code__copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/push-update.sh</code></pre>
+      </div>
+      <p>Handles version bumping (patch/minor/major) + CHANGELOG updates + site rebuild. All automatic.</p>
+    </div>
+
+    <div class="workflow-phase">
+      <div class="workflow-phase__header">
+        <div class="workflow-phase__num">4</div>
+        <div class="workflow-phase__title">
+          <h3>Run production checks</h3>
+          <p class="workflow-phase__meta">Optional, but helpful before developer handoff</p>
+        </div>
+      </div>
+      <p>Three scripts to check quality:</p>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Code quality</span>
+          <button class="code__copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>~/zendesk/design-kits/.../scripts/check-production-compliance.sh</code></pre>
+      </div>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Translations</span>
+          <button class="code__copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>~/zendesk/design-kits/.../scripts/check-translations.sh</code></pre>
+      </div>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Accessibility</span>
+          <button class="code__copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>~/zendesk/design-kits/.../scripts/audit-accessibility.sh</code></pre>
+      </div>
+    </div>
+
+    <div class="workflow-phase">
+      <div class="workflow-phase__header">
+        <div class="workflow-phase__num">5</div>
+        <div class="workflow-phase__title">
+          <h3>Hand it off to devs</h3>
+          <p class="workflow-phase__meta">When: 100% done and ready for production</p>
+        </div>
+      </div>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
+          <button class="code__copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/finalize-handoff.sh</code></pre>
+      </div>
+      <p>Runs all checks, generates IMPLEMENTATION.md, bumps to v1.0.0, and creates a complete handoff package.</p>
+    </div>
+
+    <div class="callout">
+      <span class="callout__tag">Documentation</span>
+      <p>Full docs in <code>scripts/README.md</code> — examples, troubleshooting, and detailed guides for each script.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="section">
+  <div class="container">
+    <span class="section__label">Work faster</span>
+    <h2>Pro tips</h2>
+    <p class="section__intro">Small habits that make prototyping feel effortless.</p>
+
     <div class="cols">
-      <div class="reveal">
-        <h3>Change these freely</h3>
-        <ul class="checks">
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><code>src/pages/</code></li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><code>src/components/content/</code></li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><code>src/data/</code></li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Content inside <code>&lt;Main&gt;</code></li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <h3>Leave these alone</h3>
-        <ul class="checks warn">
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><code>src/components/shared/</code></li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><code>Header.tsx</code></li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><code>Sidebar.tsx</code></li>
-          <li><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><code>&lt;Product&gt;</code> shell in App.tsx</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TIPS -->
-<section class="block" id="tips">
-  <div class="wrap">
-    <span class="label reveal">Work faster</span>
-    <h2 class="reveal">Pro tips</h2>
-    <p class="lede reveal">Small habits that make prototyping feel effortless.</p>
-    <div class="tips">
-      <div class="tip reveal">
-        <h4>Use Cursor's AI chat</h4>
-        <p>Press <span class="kbd">&#8984;</span> <span class="kbd">L</span> and ask:</p>
-        <ul>
+      <div class="col">
+        <h3>💬 Use Cursor's AI chat</h3>
+        <p style="margin-bottom:12px">Press <code>⌘L</code> and ask:</p>
+        <ul style="gap:8px">
           <li>"Add a page for asset statuses"</li>
           <li>"Create a table for locations"</li>
-          <li>"Update the styling to match Garden"</li>
+          <li>"Update styling to match Garden"</li>
         </ul>
       </div>
-      <div class="tip reveal">
-        <h4>Jump to any file</h4>
-        <p>Press <span class="kbd">&#8984;</span> <span class="kbd">P</span> and type a filename to open it instantly.</p>
+      <div class="col">
+        <h3>⚡ Jump to any file</h3>
+        <p>Press <code>⌘P</code> and type a filename to open it instantly.</p>
       </div>
-      <div class="tip reveal">
-        <h4>Check for Flora updates</h4>
-        <p>Keep your shell in sync:</p>
-        <div class="code" style="margin-top:8px">
-          <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-          <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/check-flora.sh</code></pre>
-        </div>
-      </div>
-      <div class="tip reveal">
-        <h4>Read the template guide</h4>
-        <p>Open <code>TEMPLATE_GUIDE.md</code> for detailed documentation and developer handoff guidelines.</p>
-      </div>
+    </div>
+
+    <div class="callout" style="margin-top:32px">
+      <span class="callout__tag">Template guide</span>
+      <p>Open <code>TEMPLATE_GUIDE.md</code> in your project for detailed documentation and developer handoff guidelines.</p>
     </div>
   </div>
 </section>
 
-<!-- COMPLETE WORKFLOW -->
-<section class="block" id="workflow" style="background:var(--bg-soft)">
-  <div class="wrap">
-    <span class="label reveal">Beyond local development</span>
-    <h2 class="reveal">Complete workflow: Local → Production</h2>
-    <p class="lede reveal">Six new automation scripts take you from sharing prototypes to developer handoff—no manual GitHub setup, versioning, or docs required.</p>
+<!-- Footer -->
+<div class="footer">
+  <p>Made with care by the Employee Service design team</p>
+  <p style="margin-top:12px;opacity:0.7">Internal Zendesk use only · © 2026 Zendesk, Inc.</p>
+</div>
 
-    <div class="note reveal" style="margin-bottom:32px"><span class="tag">New</span>All scripts added June 2026. Based on real workflow from <a href="https://github.com/zendesk/itam-column-visibility-prototype" target="_blank" rel="noopener">column-visibility prototype</a>.</div>
-
-    <!-- Workflow phases -->
-    <div class="workflow-phases">
-      <div class="phase reveal">
-        <div class="phase__num">1</div>
-        <div class="phase__body">
-          <h3>Setup & Local Development</h3>
-          <p>You're here! The 6 steps above get you to a working prototype.</p>
-          <p style="color:var(--muted);font-size:14px;margin-top:8px">Keep building locally until ready to share. No scripts needed.</p>
-        </div>
-      </div>
-
-      <div class="phase reveal">
-        <div class="phase__num">2</div>
-        <div class="phase__body">
-          <h3>Publish to GitHub</h3>
-          <p><strong>When:</strong> Ready to share with team/stakeholders</p>
-          <div class="code" style="margin:12px 0">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/publish-to-zendesk.sh</code></pre>
-          </div>
-          <p style="font-size:14px;color:var(--muted)"><strong>Creates:</strong> Private repo at <code>zendesk/itam-{project}-prototype</code> + live GitHub Pages site</p>
-        </div>
-      </div>
-
-      <div class="phase reveal">
-        <div class="phase__num">3</div>
-        <div class="phase__body">
-          <h3>Push Updates</h3>
-          <p><strong>When:</strong> Made changes, want to update live site</p>
-          <div class="code" style="margin:12px 0">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/push-update.sh</code></pre>
-          </div>
-          <p style="font-size:14px;color:var(--muted)"><strong>Automates:</strong> Version bumping (patch/minor/major) + CHANGELOG updates + site rebuild</p>
-        </div>
-      </div>
-
-      <div class="phase reveal">
-        <div class="phase__num">4</div>
-        <div class="phase__body">
-          <h3>Production Checks <span style="font-weight:400;color:var(--faint);font-size:14px">— optional, before handoff</span></h3>
-          <p><strong>When:</strong> Before handing off to developers</p>
-          <div style="display:flex;flex-direction:column;gap:8px;margin:12px 0">
-            <div class="code">
-              <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Code quality</span><button class="code__copy" type="button">Copy</button></div>
-              <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/check-production-compliance.sh</code></pre>
-            </div>
-            <div class="code">
-              <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Translations</span><button class="code__copy" type="button">Copy</button></div>
-              <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/check-translations.sh</code></pre>
-            </div>
-            <div class="code">
-              <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Accessibility</span><button class="code__copy" type="button">Copy</button></div>
-              <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/audit-accessibility.sh</code></pre>
-            </div>
-          </div>
-          <p style="font-size:14px;color:var(--muted)"><strong>Generates:</strong> CODE_REVIEW.md, I18N_INTEGRATION.md, ACCESSIBILITY_AUDIT.md</p>
-        </div>
-      </div>
-
-      <div class="phase reveal">
-        <div class="phase__num">5</div>
-        <div class="phase__body">
-          <h3>Finalize Handoff</h3>
-          <p><strong>When:</strong> 100% done, ready for developers</p>
-          <div class="code" style="margin:12px 0">
-            <div class="code__bar"><span class="code__dots"><i></i><i></i><i></i></span><span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>zsh</span><button class="code__copy" type="button">Copy</button></div>
-            <pre><code data-lang="bash">~/zendesk/design-kits/employee-service-design-kit/scripts/finalize-handoff.sh</code></pre>
-          </div>
-          <p style="font-size:14px;color:var(--muted)"><strong>Orchestrates:</strong> All checks + generates IMPLEMENTATION.md + bumps to v1.0.0 + complete handoff package</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- What you get -->
-    <div style="margin-top:48px">
-      <h3 class="reveal">What the workflow generates</h3>
-      <div class="cols reveal" style="margin-top:20px">
-        <div>
-          <h4 style="font-size:16px;margin-bottom:12px">For Your Team</h4>
-          <ul class="checks">
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Shareable live demo (GitHub Pages)</li>
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Version history (CHANGELOG.md)</li>
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Private repository backup</li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="font-size:16px;margin-bottom:12px">For Developers</h4>
-          <ul class="checks">
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>IMPLEMENTATION.md (integration guide)</li>
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>i18n/en-us.yml (translation keys)</li>
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Accessibility audit report</li>
-            <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Code quality review</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Learn more -->
-    <div class="note reveal" style="margin-top:32px">
-      <span class="tag">Documentation</span>
-      Complete script documentation in <code>scripts/README.md</code> — includes examples, troubleshooting, and architecture details.
-    </div>
-  </div>
-</section>
-
-<!-- Add CSS for workflow phases -->
-<style>
-.workflow-phases{display:flex;flex-direction:column;gap:20px;margin-top:24px}
-.phase{display:flex;gap:20px;align-items:flex-start;padding:24px;background:var(--bg);border-radius:var(--radius);border:1px solid var(--line-2)}
-.phase__num{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:18px}
-.phase__body{flex:1;min-width:0}
-.phase__body h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--ink)}
-.phase__body p{font-size:14px;line-height:1.6;margin-bottom:0}
-.phase__body p+p{margin-top:8px}
-.phase__body strong{font-weight:600;color:var(--ink)}
-</style>
-
-<!-- RESOURCES -->
-<section class="block" id="resources">
-  <div class="wrap">
-    <span class="label reveal">Keep going</span>
-    <h2 class="reveal">Resources</h2>
-    <p class="lede reveal">Everything else lives in the design kit repo.</p>
-    <div class="res-list reveal">
-      <a class="res" href="https://github.com/zendesk/employee-service-design-kit" target="_blank" rel="noopener">
-        <span><span class="res__t">Full documentation</span><br><span class="res__d">github.com/zendesk/employee-service-design-kit</span></span>
-        <span class="arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a>
-      <div class="res"><span><span class="res__t">Cursor guide</span><br><span class="res__d">GETTING_STARTED_CURSOR.md</span></span></div>
-      <div class="res"><span><span class="res__t">Design tokens</span><br><span class="res__d">shared/design-tokens/</span></span></div>
-      <div class="res"><span><span class="res__t">Flora updates</span><br><span class="res__d">shared/FLORA_UPDATES.md</span></span></div>
-    </div>
-  </div>
-</section>
-
-<div class="closing">Internal Zendesk use only · © 2026 Zendesk, Inc.</div>
 <script>
-(function(){
-  'use strict';
-  var esc=function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
-
-  /* syntax highlight */
-  var bashRules=[
-    ['c',/#.*/y],
-    ['s',/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/y],
-    ['u',/https?:\/\/[^\s)]+/y],
-    ['v',/\$\{?\w+\}?/y],
-    ['p',/[\w~.@:-]*\/[\w./~@:-]+/y],
-    ['f',/(?:^|(?<=\s))--?[\w-]+/y],
-    ['k',/\b(?:git|cd|mkdir|npm|run|dev|clone|sh|bash|chmod|cp|mv|export|cat|echo|ls|node|yarn|pnpm)\b/y],
-    [null,/[A-Za-z_][\w-]*/y],
-    [null,/\s+/y]
-  ];
-  var tsxRules=[
-    ['c',/\/\/.*/y],
-    ['c',/\/\*[\s\S]*?\*\//y],
-    ['s',/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/y],
-    ['t',/<\/?[A-Za-z][\w.]*/y],
-    ['k',/\b(?:import|from|const|let|var|function|return|export|default|new|if|else|key|locale|isFlora|products|id|style|maxWidth|padding|marginTop)\b/y],
-    ['n',/\b\d+(?:px|rem|%)?\b/y],
-    [null,/[A-Za-z_$][\w$]*/y],
-    [null,/\s+/y]
-  ];
-  function highlight(code,rules){
-    var out='',i=0,L=code.length;
-    while(i<L){
-      var matched=false;
-      for(var r=0;r<rules.length;r++){
-        var cls=rules[r][0],re=rules[r][1];re.lastIndex=i;
-        var m=re.exec(code);
-        if(m&&m.index===i&&m[0].length){
-          out+=cls?'<span class="'+cls+'">'+esc(m[0])+'</span>':esc(m[0]);
-          i+=m[0].length;matched=true;break;
-        }
-      }
-      if(!matched){out+=esc(code[i]);i++;}
-    }
-    return out;
-  }
-  function highlightBash(code){
-    return code.split('\n').map(function(line){
-      if(line.trim()==='') return '';
-      return '<span class="prompt">$</span> '+highlight(line,bashRules);
-    }).join('\n');
-  }
-  document.querySelectorAll('code[data-lang]').forEach(function(el){
-    var raw=el.textContent;el.setAttribute('data-raw',raw);
-    var lang=el.getAttribute('data-lang');
-    try{el.innerHTML=lang==='tsx'?highlight(raw,tsxRules):highlightBash(raw);}catch(e){el.textContent=raw;}
+function copyCode(btn) {
+  const pre = btn.closest('.code').querySelector('pre');
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'rgba(15,109,58,0.3)';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+    }, 2000);
   });
-
-  /* copy */
-  var COPY='<svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Copy';
-  var DONE='<svg viewBox="0 0 24 24" fill="none"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Copied';
-  document.querySelectorAll('.code__copy').forEach(function(btn){
-    btn.innerHTML=COPY;
-    btn.addEventListener('click',function(){
-      var code=btn.closest('.code').querySelector('code[data-lang]');
-      var text=code?(code.getAttribute('data-raw')||code.textContent):'';
-      var done=function(){btn.classList.add('copied');btn.innerHTML=DONE;setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=COPY;},1600);};
-      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fb(text);done();});}
-      else{fb(text);done();}
-    });
-  });
-  function fb(text){var t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(t);}
-
-  /* accordion */
-  document.querySelectorAll('.acc__head').forEach(function(head){
-    head.addEventListener('click',function(){
-      var acc=head.closest('.acc'),panel=acc.querySelector('.acc__panel');
-      var open=acc.classList.toggle('open');
-      panel.style.maxHeight=open?(panel.scrollHeight+'px'):'0px';
-    });
-  });
-
-  /* progress + stuck rail */
-  var progress=document.getElementById('progress'),rail=document.getElementById('rail');
-  function onScroll(){
-    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
-    progress.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
-    rail.classList.toggle('stuck',h.scrollTop>4);
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
-
-  /* reveal */
-  var rOb=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');rOb.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
-  document.querySelectorAll('.reveal:not(.in)').forEach(function(el){rOb.observe(el);});
-
-  /* step nav */
-  var steps=Array.prototype.slice.call(document.querySelectorAll('.step'));
-  var railSteps=document.querySelectorAll('.rail__step');
-  var curEl=document.getElementById('stepCur');
-  var current=0;
-  function setStep(n){
-    if(n===current)return;current=n;
-    curEl.textContent=n;
-    railSteps.forEach(function(s,i){s.classList.toggle('active',i===n-1);s.classList.toggle('done',i<n-1);});
-    steps.forEach(function(s,i){s.classList.toggle('is-current',i===n-1);s.classList.toggle('is-done',i<n-1);});
-  }
-  railSteps.forEach(function(s){
-    s.addEventListener('click',function(){
-      var el=document.getElementById('step-'+s.getAttribute('data-go'));
-      if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
-    });
-  });
-  if(steps.length){
-    var sOb=new IntersectionObserver(function(es){
-      es.forEach(function(e){if(e.isIntersecting)setStep(parseInt(e.target.getAttribute('data-step'),10));});
-    },{rootMargin:'-45% 0px -45% 0px',threshold:0});
-    steps.forEach(function(s){sOb.observe(s);});
-  }
-  setStep(1);
-})();
+}
 </script>
 </body>
 </html>

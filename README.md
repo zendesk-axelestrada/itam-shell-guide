@@ -1,6 +1,6 @@
-# ITAM Shell Template Guide
+# ITAM Shell template guide
 
-A beautiful, user-friendly guide for the ITAM Shell Template from the Employee Service Design Kit.
+A user-friendly guide for the ITAM shell template from the Employee Service Design Kit.
 
 ## 🌐 View the guide
 
@@ -8,22 +8,13 @@ A beautiful, user-friendly guide for the ITAM Shell Template from the Employee S
 
 ## What's this?
 
-This is a single-page website that explains how to use the ITAM Shell Template to create Zendesk prototypes. It's designed for team members who want to quickly understand:
+This is a single-page website that explains how to use the ITAM shell template to create Zendesk prototypes. It's designed for team members who want to quickly understand:
 
 - What the template provides (navigation shell)
 - How to set it up (Cursor workflow)
 - What goes in the `<Main>` content area
 - How to switch between Admin Center and Support
-- How to disable the product switcher if needed
 
-## Features
-
-- ✨ Beautiful, modern design
-- 📱 Fully responsive
-- 🎨 Zendesk color palette
-- 📖 Step-by-step instructions
-- 💡 Visual breakdowns and examples
-- 🔗 Links to full documentation
 
 ## Local development
 

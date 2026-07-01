@@ -548,7 +548,7 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
 
     <div class="callout">
       <span class="callout__tag">✨ New: Simplified Commands (July 2026)</span>
-      <p>The template now includes wrapper scripts (<code>./publish.sh</code>, <code>./check-compliance.sh</code>) that you run directly from your project folder. No more typing long paths! The publish script also automatically handles JFrog authentication for Zendesk npm packages.</p>
+      <p>The template now includes wrapper scripts for <strong>all</strong> workflow commands. Run <code>./publish.sh</code>, <code>./check-compliance.sh</code>, <code>./check-translations.sh</code>, etc. directly from your project folder — no more typing long paths! Scripts automatically handle JFrog authentication and find the design kit installation.</p>
     </div>
 
     <div class="workflow-phase">
@@ -593,7 +593,7 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
           <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
-        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/push-update.sh</code></pre>
+        <pre><code>./push-update.sh</code></pre>
       </div>
       <p>Version bumping + CHANGELOG + site rebuild.</p>
     </div>
@@ -618,14 +618,14 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
           <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>i18n</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
-        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/check-translations.sh</code></pre>
+        <pre><code>./check-translations.sh</code></pre>
       </div>
       <div class="code">
         <div class="code__bar">
           <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>a11y</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
-        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/audit-accessibility.sh</code></pre>
+        <pre><code>./audit-accessibility.sh</code></pre>
       </div>
     </div>
 
@@ -642,7 +642,7 @@ git clone git@github.com:zendesk/employee-service-design-kit.git</code></pre>
           <span class="code__lang"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7l4 4-4 4M12 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Terminal</span>
           <button class="code__copy" onclick="copyCode(this)">Copy</button>
         </div>
-        <pre><code>~/zendesk/design-kits/employee-service-design-kit/scripts/finalize-handoff.sh</code></pre>
+        <pre><code>./finalize-handoff.sh</code></pre>
       </div>
       <p>Runs all checks, generates docs, bumps to v1.0.0.</p>
     </div>

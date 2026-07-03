@@ -690,7 +690,7 @@ code.copied::after {
     <div class="content-header">
       <div class="content-badge">Setup</div>
       <h1 class="content-title">Getting started</h1>
-      <p class="content-description">Set up your shell template and start prototyping in 5 steps. No coding experience required.</p>
+      <p class="content-description">Set up your shell template and start prototyping in 5 steps. Choose between ITAM or SaaS Management templates. No coding experience required.</p>
     </div>
 
     <div class="content-card">
@@ -863,23 +863,49 @@ code.copied::after {
       <div style="flex-shrink: 0; width: 32px; height: 32px; background: var(--gray-light); color: var(--black); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; font-family: var(--font-mono); border: 1px solid var(--gray-border);">4</div>
       <div style="flex: 1;">
         <h2 class="card-title" style="margin-bottom: 12px;">Run the setup script</h2>
-        <p class="card-text">Open your terminal in Cursor or any tool you're using, and run this command. It copies the template, installs libraries, sets up git, and configures everything automatically:</p>
-        <div class="terminal">
-          <div class="terminal-header">
-            <div class="terminal-title">Terminal</div>
-            <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell')">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/>
-                <path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/>
-              </svg>
-              Copy
-            </button>
+        <p class="card-text">Choose your template. The design kit includes two options:</p>
+
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--gray-darker); margin: 0 0 8px 0;">ITAM prototypes:</h3>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-title">Terminal</div>
+                <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell')">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/>
+                    <path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="terminal-body">
+                <div><span class="terminal-prompt">$</span><code>~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell</code></div>
+              </div>
+            </div>
           </div>
-          <div class="terminal-body">
-            <div><span class="terminal-prompt">$</span><code>~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh itam-shell</code></div>
+
+          <div>
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--gray-darker); margin: 0 0 8px 0;">SaaS Management prototypes:</h3>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-title">Terminal</div>
+                <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh saas-shell')">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/>
+                    <path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="terminal-body">
+                <div><span class="terminal-prompt">$</span><code>~/zendesk/design-kits/employee-service-design-kit/scripts/setup-here.sh saas-shell</code></div>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="card-text" style="margin-top: 16px;">Takes about 30 seconds. Progress messages appear as files copy and dependencies install.</p>
+
+        <p class="card-text" style="margin-top: 16px;">Both templates include Flora design system, accessibility features, and i18n support. Takes about 30 seconds to complete.</p>
       </div>
     </div>
 

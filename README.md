@@ -1,24 +1,24 @@
-# ITAM Shell template guide
+# Employee service shell guide
 
-A user-friendly guide for the ITAM shell template from the Employee Service Design Kit.
+A comprehensive guide for employee service shell templates from the Employee Service Design Kit.
 
 ## 🌐 View the guide
 
-**https://zendesk-axelestrada.github.io/itam-shell-guide/**
+**https://zendesk-axelestrada.github.io/employee-service-guide/**
 
 ## What's this?
 
-This is a single-page website that explains how to use the ITAM shell template to create Zendesk prototypes. It's designed for team members who want to quickly understand:
+This is a single-page website that explains how to use employee service shell templates to create Zendesk prototypes. It's designed for team members who want to quickly understand:
 
-- What the template provides (navigation shell)
-- How to set it up (Cursor workflow)
+- What the templates provide (navigation shells for various employee service domains)
+- How to set them up (Cursor workflow)
 - What goes in the `<Main>` content area
-- How to switch between Admin Center and Support
+- How to build prototypes for ITAM, onboarding, offboarding, and other employee service features
 
 
 ## Local development
 
-Open `index.html` in your browser. No build step needed!
+Open `index.html` in your browser—no build step needed.
 
 ## Updates
 

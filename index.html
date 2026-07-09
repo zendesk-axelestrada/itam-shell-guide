@@ -80,8 +80,12 @@ body {
 }
 
 .sidebar-nav {
-  flex: 1;
   margin-top: 0;
+}
+
+.sidebar-nav-footer {
+  margin-top: auto;
+  padding-top: 24px;
 }
 
 .nav-item {
@@ -146,6 +150,17 @@ body {
 .nav-badge.wip {
   background: #FFF4E5;
   color: #DE6E0F;
+}
+
+.nav-badge.soon {
+  background: #E4EAF6;
+  color: #1F335A;
+}
+
+.nav-item.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Contact Section */
@@ -691,16 +706,22 @@ a:hover {
     <a class="nav-item active" data-section="introduction">Introduction</a>
     <a class="nav-item" data-section="getting-started">Getting Started</a>
     <a class="nav-item" data-section="workflow">
-      Workflow
+      Design to Development
       <span class="nav-badge wip">WIP</span>
+    </a>
+    <a class="nav-item disabled" aria-disabled="true" tabindex="-1">
+      Contribute to Code
+      <span class="nav-badge soon">SOON</span>
     </a>
     <a class="nav-item" data-section="skills">
       Skills
       <span class="nav-badge wip">WIP</span>
     </a>
+  </nav>
+
+  <nav class="sidebar-nav-footer">
     <a class="nav-item" data-section="troubleshooting">
       Troubleshooting
-      <span class="nav-badge wip">WIP</span>
     </a>
     <a class="nav-item" data-section="contact">Contact</a>
   </nav>
@@ -1413,12 +1434,23 @@ a:hover {
     </div>
   </section>
 
+  <!-- Contribute to Code Section (disabled, coming soon) -->
+  <section class="section-content" id="contribute">
+    <div class="content-wrapper">
+    <div class="content-header">
+      <div class="content-badge">SOON</div>
+      <h1 class="content-title">Contribute to Code</h1>
+      <p class="content-description">Make changes directly in the real production repositories, not just prototypes. This section is coming soon.</p>
+    </div>
+    </div>
+  </section>
+
   <!-- Workflow Section -->
   <section class="section-content" id="workflow">
     <div class="content-wrapper">
     <div class="content-header">
       <div class="content-badge">PROCESS</div>
-      <h1 class="content-title">Workflow</h1>
+      <h1 class="content-title">Design to Development</h1>
       <p class="content-description">Build prototypes with natural language — no coding required.</p>
     </div>
 

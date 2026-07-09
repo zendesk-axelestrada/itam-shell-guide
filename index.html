@@ -595,6 +595,20 @@ a:hover {
   margin: 48px 0 8px 0;
 }
 
+/* Skill group label (e.g. Localization, Accessibility) — uppercase eyebrow,
+   left edge aligned to the skill cards which bleed 40px past the wrapper */
+.skill-group-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-text);
+  margin: 0 0 16px -40px;
+}
+.skill-group-label + .troubleshooting-card {
+  margin-top: 0;
+}
+
 /* Skill editor tabs (Claude Code / Cursor) */
 .skill-tabs {
   display: flex;
@@ -1077,6 +1091,8 @@ a:hover {
       <p class="content-description">Skills are commands you run inside your editor. Type <code>/name</code> in Claude Code or <code>@name</code> in Cursor. They automate parts of your design-to-development workflow. Every prototype includes them automatically. Setup copies them in for you.</p>
     </div>
 
+    <div class="skill-group-label">Localization</div>
+
     <!-- Skill card: /localize -->
     <details class="troubleshooting-card" style="width: calc(100% + 80px); margin-left: -40px; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; background: transparent;">
       <summary style="padding: 20px 40px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 600; color: var(--gray-text); user-select: none; list-style: none;">
@@ -1277,6 +1293,120 @@ a:hover {
         </div>
 
         <p class="card-text" style="margin-top: 24px;">Note: your engineer will need to recapture any screenshots for the strings you changed.</p>
+      </div>
+    </details>
+
+    <div class="skill-group-label" style="margin-top: 48px;">Accessibility</div>
+
+    <!-- Skill card: /a11y-explore -->
+    <details class="troubleshooting-card" style="width: calc(100% + 80px); margin-left: -40px; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; background: transparent;">
+      <summary style="padding: 20px 40px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 600; color: var(--gray-text); user-select: none; list-style: none;">
+        <code style="font-size: 14px; font-weight: 500;">a11y-explore</code>
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; stroke: var(--gray-text);">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="troubleshooting-content" style="padding: 0 40px 32px 40px; max-width: 680px;">
+        <h3 class="skill-heading">What it does</h3>
+        <p class="card-text">This skill helps you pick the right component before you build. When you're choosing a component or sketching an interaction, it recommends the correct Garden or Flora component and points out the accessibility implications first. It only gives advice. It never edits your code.</p>
+
+        <h3 class="skill-heading">When to use</h3>
+        <p class="card-text">Run this early, while you're exploring. Use it any time you're deciding how to build something.</p>
+
+        <h3 class="skill-heading">Invoke it</h3>
+        <div class="skill-tabs-group">
+          <div class="skill-tabs">
+            <button class="skill-tab active" onclick="switchSkillTab(this, 'claude')">Claude Code</button>
+            <button class="skill-tab" onclick="switchSkillTab(this, 'cursor')">Cursor</button>
+          </div>
+          <div class="skill-tab-panel active" data-tab="claude">
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-title">Claude Code</div>
+                <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '/a11y-explore')">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <div class="terminal-body">
+                <code><span class="terminal-prompt">&gt;</span>/a11y-explore</code>
+              </div>
+            </div>
+          </div>
+          <div class="skill-tab-panel" data-tab="cursor">
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-title">Cursor</div>
+                <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '@a11y-explore')">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <div class="terminal-body">
+                <code><span class="terminal-prompt">&gt;</span>@a11y-explore</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="skill-heading">What you get</h3>
+        <p class="card-text" style="margin-top: 0;">Conversational guidance only. No files.</p>
+      </div>
+    </details>
+
+    <!-- Skill card: /a11y-check -->
+    <details class="troubleshooting-card" style="width: calc(100% + 80px); margin-left: -40px; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; background: transparent;">
+      <summary style="padding: 20px 40px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 600; color: var(--gray-text); user-select: none; list-style: none;">
+        <code style="font-size: 14px; font-weight: 500;">a11y-check</code>
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; stroke: var(--gray-text);">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="troubleshooting-content" style="padding: 0 40px 32px 40px; max-width: 680px;">
+        <h3 class="skill-heading">What it does</h3>
+        <p class="card-text">This skill reviews a component for accessibility before you ship, built on the <a href="https://github.com/zendesk/claude-code-marketplace/tree/main/plugins/zendesk-accessibility" target="_blank" rel="noopener">zendesk-accessibility plugin</a>. You choose which component or interaction to check, not the whole shell. It checks the code against WCAG 2.2 AA and sorts what it finds into Critical, Major, and Minor. It explains each issue in plain language, then fixes it in place with your approval, using the right Garden or Flora components. It confirms each fix with your project's build.</p>
+
+        <h3 class="skill-heading">When to use</h3>
+        <p class="card-text">Run this near the end, once your content and behavior are final.</p>
+
+        <h3 class="skill-heading">Invoke it</h3>
+        <div class="skill-tabs-group">
+          <div class="skill-tabs">
+            <button class="skill-tab active" onclick="switchSkillTab(this, 'claude')">Claude Code</button>
+            <button class="skill-tab" onclick="switchSkillTab(this, 'cursor')">Cursor</button>
+          </div>
+          <div class="skill-tab-panel active" data-tab="claude">
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-title">Claude Code</div>
+                <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '/a11y-check')">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <div class="terminal-body">
+                <code><span class="terminal-prompt">&gt;</span>/a11y-check</code>
+              </div>
+            </div>
+          </div>
+          <div class="skill-tab-panel" data-tab="cursor">
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-title">Cursor</div>
+                <button class="terminal-copy-btn" onclick="copyTerminalCode(this, '@a11y-check')">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 1H10C10.5523 1 11 1.44772 11 2V8" stroke="currentColor" stroke-width="1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <div class="terminal-body">
+                <code><span class="terminal-prompt">&gt;</span>@a11y-check</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="skill-heading">What you get</h3>
+        <p class="card-text" style="margin-top: 0;">A plain-language list of what it found, and the fixes applied to your code once you approve them.</p>
       </div>
     </details>
 
@@ -1525,19 +1655,6 @@ Use a primary button, data table with sortable columns, and Flora spacing.</code
             </div>
             <div class="terminal-body">
               <code><span class="terminal-prompt">$</span> ./check-compliance.sh</code>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h3 style="font-size: 15px; font-weight: 600; color: var(--gray-darker); margin: 0 0 8px 0;">Accessibility audit</h3>
-          <div class="terminal">
-            <div class="terminal-header">
-              <span class="terminal-title">a11y</span>
-              <button class="terminal-copy" onclick="navigator.clipboard.writeText('./audit-accessibility.sh')">Copy</button>
-            </div>
-            <div class="terminal-body">
-              <code><span class="terminal-prompt">$</span> ./audit-accessibility.sh</code>
             </div>
           </div>
         </div>

@@ -1150,7 +1150,7 @@ a:hover {
         </div>
 
         <h3 class="skill-heading">What you get</h3>
-        <p class="card-text" style="margin-top: 0;">One file, <code>.claude/target-context.md</code>. Later steps read it to keep your prototype in line with the real repo.</p>
+        <p class="card-text" style="margin-top: 0;">One file, <code>.claude/target-context.md</code>. Later steps read it to keep your prototype in line with the real repo. It also fills in the README's version line and any ownership details it can pull from the target repo.</p>
       </div>
     </details>
 
@@ -1220,7 +1220,7 @@ a:hover {
       </summary>
       <div class="troubleshooting-content" style="padding: 0 40px 32px 40px; max-width: 680px;">
         <h3 class="skill-heading">What it does</h3>
-        <p class="card-text">This skill ships a new version of an already-published prototype to its live site. It reads what changed, suggests a version bump, and drafts the changelog entry for you to confirm.</p>
+        <p class="card-text">This skill ships a new version of an already-published prototype to its live site. It reads what changed, suggests a version bump, and refreshes the README's version line — the date and the production repo it's based on — from your changes. There's no changelog to write by hand.</p>
 
         <h3 class="skill-heading">When to use</h3>
         <p class="card-text">Run this any time you've made changes worth sharing, after you've published once with <code>/publish</code>.</p>
@@ -1262,7 +1262,7 @@ a:hover {
         </div>
 
         <h3 class="skill-heading">What you get</h3>
-        <p class="card-text" style="margin-top: 0;">A bumped version, an updated CHANGELOG, and a refreshed live site.</p>
+        <p class="card-text" style="margin-top: 0;">A bumped version, a refreshed README version line, and an updated live site.</p>
       </div>
     </details>
 
@@ -1277,6 +1277,7 @@ a:hover {
       <div class="troubleshooting-content" style="padding: 0 40px 32px 40px; max-width: 680px;">
         <h3 class="skill-heading">What it does</h3>
         <p class="card-text">This skill checks that your prototype still matches the real target repo. It compares your work against the context <code>/match-repo</code> created, looking at versions, dependencies, components, and data shapes. It reports only where the two differ. It doesn't review your code quality. That stays with the engineer.</p>
+        <p class="card-text" style="margin-top: 16px;">It also checks that the repo follows the kit's standard — the README structure, the two allowed statuses, and the expected files — so nothing surprises the engineer at handoff.</p>
 
         <h3 class="skill-heading">When to use</h3>
         <p class="card-text">Run this before you hand off to developers. Run <code>/match-repo</code> first, since this check compares against the context it creates.</p>
@@ -1318,7 +1319,7 @@ a:hover {
         </div>
 
         <h3 class="skill-heading">What you get</h3>
-        <p class="card-text" style="margin-top: 0;">A list of the gaps between your prototype and the target repo, grouped by versions, dependencies, components, and data shapes.</p>
+        <p class="card-text" style="margin-top: 0;">A list of the gaps between your prototype and the target repo, grouped by versions, dependencies, components, and data shapes, plus any places the repo drifts from the kit standard.</p>
       </div>
     </details>
 
@@ -1332,7 +1333,7 @@ a:hover {
       </summary>
       <div class="troubleshooting-content" style="padding: 0 40px 32px 40px; max-width: 680px;">
         <h3 class="skill-heading">What it does</h3>
-        <p class="card-text">This skill packages your finished prototype for engineers. It reads your actual code to generate an implementation guide tailored to your prototype, marks it as v1.0.0, and builds it.</p>
+        <p class="card-text">This skill packages your finished prototype for engineers. It reads your real code and writes a single <code>HANDOFF.md</code> that spells out what to reuse, what's throwaway scaffolding, and how the feature wires up to production data, so an engineer can pick it up from that one file. It also marks the README <strong>Ready for development</strong>, tags a v1.0.0 release, and runs a production build.</p>
 
         <h3 class="skill-heading">When to use</h3>
         <p class="card-text">Run this when the prototype is done and you're ready for developers to pick it up. Run your quality gates first: <code>/repo-check</code>, <code>/localize</code>, and <code>/a11y-check</code>.</p>
@@ -1374,7 +1375,7 @@ a:hover {
         </div>
 
         <h3 class="skill-heading">What you get</h3>
-        <p class="card-text" style="margin-top: 0;">An <code>IMPLEMENTATION.md</code> written from your real code, a v1.0.0 release, and a production build.</p>
+        <p class="card-text" style="margin-top: 0;">A single, self-contained <code>HANDOFF.md</code> written from your real code, the README marked Ready for development, a v1.0.0 release, and a production build.</p>
       </div>
     </details>
 
@@ -1867,7 +1868,7 @@ a:hover {
       <div style="flex-shrink: 0; width: 32px; height: 32px; background: var(--gray-light); color: var(--black); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; font-family: var(--font-mono); border: 1px solid var(--gray-border);">2</div>
       <div style="flex: 1;">
       <h2 class="card-title" style="margin-bottom: 12px;">Publishing and updating</h2>
-      <p class="card-text">When you're confident in your explorations, or you need to share with a PM or stakeholders, run <a href="#" onclick="goToSkill('skill-publish'); return false;"><code>/publish</code></a>. It creates the repo and a live website with your prototype on it.</p>
+      <p class="card-text">When you're confident in your explorations, or you need to share with a PM or stakeholders, run <a href="#" onclick="goToSkill('skill-publish'); return false;"><code>/publish</code></a>. It creates the repo and a live website with your prototype on it, and sets up a Jira-first README that opens with the Jira link, a status of Work in progress, and the demo link, with ownership details right there in the file.</p>
       <p class="card-text" style="margin-top: 16px;">After you publish, run <a href="#" onclick="goToSkill('skill-publish-update'); return false;"><code>/publish-update</code></a> whenever you make changes. It pushes to the repo and rebuilds the live site.</p>
       <p class="card-text" style="margin-top: 16px;">There's no versioning at this stage, so you can keep making changes and pushing commits without confusing anyone.</p>
       </div>
@@ -1880,7 +1881,7 @@ a:hover {
       <p class="card-text">Think of this as getting your work dev-ready, the way you'd prepare Figma files for engineering, and then going a step further. Run these quality checks before you hand off. The order below is a good default, but the sequence is your call.</p>
       <ul style="list-style: disc; padding-left: 24px; margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
         <li style="font-size: 17px; line-height: 1.7; color: var(--gray-dark);">
-          <strong><a href="#" onclick="goToSkill('skill-repo-check'); return false;"><code>/repo-check</code></a>:</strong> Confirms the prototype still matches the real target repo across versions, dependencies, components, and data shapes.
+          <strong><a href="#" onclick="goToSkill('skill-repo-check'); return false;"><code>/repo-check</code></a>:</strong> Confirms the prototype still matches the real target repo across versions, dependencies, components, and data shapes, and that the repo follows the kit standard.
         </li>
         <li style="font-size: 17px; line-height: 1.7; color: var(--gray-dark);">
           <strong>Localization (<a href="#" onclick="goToSkill('skill-localize'); return false;"><code>/localize</code></a>, <a href="#" onclick="goToSkill('skill-localize-update'); return false;"><code>/localize-update</code></a>):</strong> Prepares your final text for Zendesk's translation process.
@@ -1896,7 +1897,7 @@ a:hover {
       <div style="flex-shrink: 0; width: 32px; height: 32px; background: var(--gray-light); color: var(--black); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; font-family: var(--font-mono); border: 1px solid var(--gray-border);">4</div>
       <div style="flex: 1;">
       <h2 class="card-title" style="margin-bottom: 12px;">Handoff</h2>
-      <p class="card-text">When you're confident the work is ready for engineers, run <a href="#" onclick="goToSkill('skill-handoff'); return false;"><code>/handoff</code></a>. It reads your real code to generate an implementation guide tailored to the prototype, marks it as v1.0.0, and builds it. The result is a clean package for the engineering team.</p>
+      <p class="card-text">When you're confident the work is ready for engineers, run <a href="#" onclick="goToSkill('skill-handoff'); return false;"><code>/handoff</code></a>. It reads your real code and writes a single, self-contained <code>HANDOFF.md</code> — one guide an engineer reads to know what to reuse, what's throwaway scaffolding, and how to wire it to production data. It also flips the README status to Ready for development, marks it as v1.0.0, and builds it. The result is a clean package for the engineering team.</p>
       </div>
     </div>
 
